@@ -1,4 +1,8 @@
-# Wwm
+# Watch With Me Elixir Backend
+
+This is a pretty standard Elixir Phoenix App that supplies the backend for WWM.
+
+Basics -
 
 To start your Phoenix server:
 
@@ -20,9 +24,25 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Source: https://github.com/phoenixframework/phoenix
 
 
+# Setup help
+
+http://mockra.com/2016/07/21/osx-postgres-phoenix
 
 Install
 brew install postgres
 createuser -s postgres
-mix ecto.create
+mix ecto.setup
+
+I think I will make more ecto tasks for this stuff, since it's annoying but there is a definitive way to solve it.
+
+
+
+# Other stuff
+
+## Plugs
+
+What are plugs?
+They are just http middlewares.
+They modify the conn struct and return it, straight and simple.
+Basically everything that happens to conn is a plug.
 
