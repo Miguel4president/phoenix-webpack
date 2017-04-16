@@ -5,7 +5,9 @@
 // and connect at the socket path in "lib/web/endpoint.ex":
 import {Socket} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+const getRandomInt = () => { return Math.floor(Math.random() * (20000)); }
+
+let socket = new Socket("/socket", {params: {token: window.userToken, username: getRandomInt()}})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -54,10 +56,15 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-
 let channel           = socket.channel("room:lobby", {});
 let chatInput         = document.querySelector("#chat-input");
 let messagesContainer = document.querySelector("#messages");
+
+const appendMessage = (text) => {
+  let messageItem = document.createElement("li");
+  messageItem.innerText = `${text}`
+  messagesContainer.appendChild(messageItem)
+};
 
 chatInput.addEventListener("keypress", event => {
   if(event.keyCode === 13){
@@ -67,13 +74,17 @@ chatInput.addEventListener("keypress", event => {
 });
 
 channel.on("new_msg", payload => {
-  let messageItem = document.createElement("li");
-  messageItem.innerText = `[${Date()}] ${payload.body}`
-  messagesContainer.appendChild(messageItem)
-})
+  appendMessage(payload.body);
+});
+
+channel.on("user_joined", payload => {
+  appendMessage(payload.body);
+});
 
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive("ok", resp => { console.log("Connected", resp)})
+  .receive("error", resp => { 
+    appendMessage("Unable to join");
+    console.log("failed to connect: ", resp)});
 
 export default socket
