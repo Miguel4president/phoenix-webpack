@@ -1,29 +1,14 @@
 defmodule Wwm.Web.RoomChannelTest do
   use Wwm.Web.ChannelCase
-  alias Wwm.Web.RoomChannel
+#   alias Wwm.Web.RoomChannel
   alias Wwm.Web.UserSocket
 
-  @lobby "room:lobby"
+  @topic "room:lobby"
+  @username "Shamshirz"
 
   setup do
-    {:ok, socket: createUserSocket(%{"username" => "shamshirz"}, @lobby)}
-  end
-
-  test "new socket connections without a username default to anonymous" do
-      params = %{}
-
-      socket = createUserSocket(params, @lobby)
-
-      assert socket.assigns.username == "anonymous"
-  end
-
-  test "new socket connections can send a username param and it's mapped to assigns" do
-      params = %{"username" => "shamshirz"}
-      
-      socket = createUserSocket(params, @lobby)
-
-
-      assert socket.assigns.username == "shamshirz"
+    socket = createUserSocket(%{"username" => @username}, @topic)
+    {:ok, socket: socket}
   end
 
   test "new_msg reply prepends message with username", %{socket: socket} do
@@ -43,6 +28,18 @@ defmodule Wwm.Web.RoomChannelTest do
     broadcast_from! socket, "new_msg", %{body: body}
 
     assert_push "new_msg", %{body: ^body}
+  end
+
+  test "user_joined broadcast is send to channel" do
+    message = %{username: @username, body: "#{@username} joined!"}
+
+    assert_broadcast "user_joined", ^message
+  end
+
+  test "user_joined message is different for the joiner" do
+    message = %{username: @username, body: "Welcome #{@username}"}
+
+    assert_push "user_joined", ^message
   end
 
 # Helper fxns
