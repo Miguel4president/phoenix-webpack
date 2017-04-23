@@ -12,7 +12,7 @@ defmodule Wwm.Web.RoomChannelTest do
     {:ok, socket: socket}
   end
 
-  test "new_msg reply prepends message with username", %{socket: socket} do
+  test "Event:new_msg - reply prepends message with username", %{socket: socket} do
       message = "Welcome to OASIS"
       body = createBody(socket, message)
 
@@ -22,7 +22,7 @@ defmodule Wwm.Web.RoomChannelTest do
       assert_reply ref, :ok, %{body: ^body}
   end
 
-  test "new_msg broadcast prepends message with username'", %{socket: socket} do
+  test "Event:new_msg - broadcast prepends message with username'", %{socket: socket} do
     message = "Welcome to OASIS"
     body = createBody(socket, message)
 
@@ -31,19 +31,19 @@ defmodule Wwm.Web.RoomChannelTest do
     assert_push "new_msg", %{body: ^body}
   end
 
-  test "user_joined broadcast is send to channel" do
+  test "Event:user_joined - broadcast is send to channel" do
     message = %{username: @username, body: "#{@username} joined!"}
 
     assert_broadcast "user_joined", ^message
   end
 
-  test "user_joined message is different for the joiner" do
+  test "Event:user_joined - message is different for the joiner" do
     message = %{username: @username, body: "Welcome #{@username}"}
 
     assert_push "user_joined", ^message
   end
 
-  test "videoEvents broadcast to everyone", %{socket: socket} do
+  test "Event:action - videoEvents broadcast to everyone", %{socket: socket} do
       event = new_play_event(socket.assigns.username)
 
       ref = push socket, "action", event

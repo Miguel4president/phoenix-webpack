@@ -40,18 +40,7 @@ defmodule Wwm.Web.RoomChannel do
     {:noreply, socket}
   end
 
-# This isn't guarenteed to be called
-# Another process should monitor this (like genServer)
-# For that reason, I didn't add any tests and I might just delete it
-  def terminate(reason, socket) do
-    Logger.debug"> leave #{inspect reason}"
-    broadcast! socket, "exit", Events.exit(socket.assigns.username)
-    :ok
-  end
-
-
 # How do we handle incoming messages!!
-# videoEvent(type, video_time, world_time, username
 # 
 # handle_in take the event type, the message, and the socket
   def handle_in("new_msg", %{"body" => body}, socket) do
@@ -88,12 +77,6 @@ defmodule Wwm.Web.RoomChannel do
       push socket, "action", payload
       {:noreply, socket}
     end
-  end
-
-  def add_user_to_ve(action, username) do
-    action
-    |> Map.merge(%{"username" => username})
-    |> struct()
   end
 
 end
