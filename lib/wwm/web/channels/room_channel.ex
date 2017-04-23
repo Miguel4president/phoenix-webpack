@@ -22,6 +22,11 @@ defmodule Wwm.Web.RoomChannel do
     {type, video_time, world_time}
      - type     => PLAY|PAUSE
      - *time    => millisecond timestamp
+  
+  Event: heartbeat
+    Message requires format
+    {video_time, world_time}
+      - *time    => millisecond timestamp
   """
 
   intercept ["user_joined", "action"]
@@ -53,6 +58,11 @@ defmodule Wwm.Web.RoomChannel do
     videoEvent = Events.new_video_event(type, v_time, w_time, socket.assigns.username)
     broadcast! socket, "action", videoEvent
     {:reply, {:ok, videoEvent}, socket}
+  end
+
+  def handle_in("heartbeat", %{"video_time" => v_time, "world_time" => w_time}, socket) do
+    Logger.debug "Good to know #{socket.assigns.username}'s video is at #{v_time}, as of #{w_time}"
+    {:reply, :ok, socket}
   end
 
   @doc """

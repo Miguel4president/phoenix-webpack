@@ -44,12 +44,21 @@ defmodule Wwm.Web.RoomChannelTest do
   end
 
   test "Event:action - videoEvents broadcast to everyone", %{socket: socket} do
-      event = new_play_event(socket.assigns.username)
+      incoming_event = new_incoming_play()
+      expected_event = new_play_event(socket.assigns.username)
 
-      ref = push socket, "action", event
+      ref = push socket, "action", incoming_event
       
-      assert_broadcast "action", ^event
-      assert_reply ref, :ok, ^event
+      assert_broadcast "action", ^expected_event
+      assert_reply ref, :ok, ^expected_event
+  end
+
+  test "Event:heartbeat - server accepts heartbeat messages", %{socket: socket} do
+    heartbeat_message = new_heartbeat()
+
+    ref = push socket, "heartbeat", heartbeat_message
+
+    assert_reply ref, :ok
   end
 
 # Helper fxns
@@ -63,15 +72,23 @@ defmodule Wwm.Web.RoomChannelTest do
     socket
   end
 
-  defp getTime() do
+  defp get_time() do
     :os.system_time(:milli_seconds)
   end
 
+  defp video_time() do
+    14
+  end
+
   defp new_play_event(username) do
-    now = getTime()
-    Events.new_video_event("PLAY",
-      now,
-      now,
-      username)
+    Events.new_video_event("PLAY",video_time(),get_time(),username)
+  end
+
+  defp new_incoming_play() do
+    %{"type" => "PLAY", "video_time" => video_time(), "world_time" => get_time()}
+  end
+
+  defp new_heartbeat() do
+    %{"video_time" => video_time(), "world_time" => get_time()}
   end
 end
