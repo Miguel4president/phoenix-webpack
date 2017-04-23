@@ -59,12 +59,18 @@ socket.connect()
 let channel           = socket.channel("room:lobby", {});
 let chatInput         = document.querySelector("#chat-input");
 let messagesContainer = document.querySelector("#messages");
+let buttonContainer   = document.querySelector("#playButton");
 
 const appendMessage = (text) => {
   let messageItem = document.createElement("li");
   messageItem.innerText = `${text}`
   messagesContainer.appendChild(messageItem)
 };
+
+buttonContainer.addEventListener("click", event => {
+  const now = Date.now();
+  channel.push("action", {type: "PLAY", video_time: now, world_time: now});
+});
 
 chatInput.addEventListener("keypress", event => {
   if(event.keyCode === 13){
@@ -75,6 +81,10 @@ chatInput.addEventListener("keypress", event => {
 
 channel.on("new_msg", payload => {
   appendMessage(payload.body);
+});
+
+channel.on("action", payload => {
+  appendMessage(`DO: ${payload.type} @ ${payload.video_time}`);
 });
 
 channel.on("user_joined", payload => {
