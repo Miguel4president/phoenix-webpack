@@ -29,7 +29,7 @@ defmodule Wwm.Web.RoomChannel do
       - *time    => millisecond timestamp
   """
 
-  intercept ["user_joined", "action"]
+  intercept ["user_joined", "action", "new_msg"]
 
   def join("room:lobby", _message, socket) do
     send(self(), :after_join)
@@ -85,6 +85,15 @@ defmodule Wwm.Web.RoomChannel do
       {:noreply, socket}
     else
       push socket, "action", payload
+      {:noreply, socket}
+    end
+  end
+
+  def handle_out("new_msg", payload, socket) do
+    if socket.assigns.username === payload.sender do
+      {:noreply, socket}
+    else
+      push socket, "new_msg", payload
       {:noreply, socket}
     end
   end

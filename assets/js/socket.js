@@ -81,6 +81,7 @@ hbButton.addEventListener("click", event => {
 
 chatInput.addEventListener("keypress", event => {
   if(event.keyCode === 13){
+    appendMessage(chatInput.value)
     channel.push("new_msg", {body: chatInput.value})
     chatInput.value = ""
   }
