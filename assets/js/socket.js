@@ -59,7 +59,8 @@ socket.connect()
 let channel           = socket.channel("room:lobby", {});
 let chatInput         = document.querySelector("#chat-input");
 let messagesContainer = document.querySelector("#messages");
-let buttonContainer   = document.querySelector("#playButton");
+let playButton        = document.querySelector("#playButton");
+let hbButton          = document.querySelector("#hbButton");
 
 const appendMessage = (text) => {
   let messageItem = document.createElement("li");
@@ -67,9 +68,15 @@ const appendMessage = (text) => {
   messagesContainer.appendChild(messageItem)
 };
 
-buttonContainer.addEventListener("click", event => {
+playButton.addEventListener("click", event => {
   const now = Date.now();
   channel.push("action", {type: "PLAY", video_time: now, world_time: now});
+});
+
+// Once we add a video element, test that we can get time from it
+hbButton.addEventListener("click", event => {
+  const now = Date.now();
+  channel.push("heartbeat", {video_time: now, world_time: now});
 });
 
 chatInput.addEventListener("keypress", event => {

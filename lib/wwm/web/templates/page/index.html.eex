@@ -4,3 +4,4 @@
 <input id="chat-input" type="text"></input>
 
 <button id="playButton">Play</button>
+<button id="hbButton">Send Heartbeat</button>
