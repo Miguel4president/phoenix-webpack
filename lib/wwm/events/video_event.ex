@@ -3,6 +3,6 @@ defmodule Wwm.Events.VideoEvent do
   Provides a struct describing the change in video state
   """
 
-  @enforce_keys [:type, :time, :initiator]
-  defstruct [:type, :time, :initiator]
+  @enforce_keys [:type, :video_time, :world_time, :initiator]
+  defstruct [:type, :video_time, :world_time, :initiator]
 end

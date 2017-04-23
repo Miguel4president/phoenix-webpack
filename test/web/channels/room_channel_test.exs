@@ -1,7 +1,8 @@
 defmodule Wwm.Web.RoomChannelTest do
   use Wwm.Web.ChannelCase
-#   alias Wwm.Web.RoomChannel
+  # alias Wwm.Web.RoomChannel
   alias Wwm.Web.UserSocket
+  alias Wwm.Events.Events
 
   @topic "room:lobby"
   @username "Shamshirz"
@@ -42,6 +43,15 @@ defmodule Wwm.Web.RoomChannelTest do
     assert_push "user_joined", ^message
   end
 
+  test "videoEvents broadcast to everyone", %{socket: socket} do
+      event = new_play_event(socket.assigns.username)
+
+      ref = push socket, "action", event
+      
+      assert_broadcast "action", ^event
+      assert_reply ref, :ok, ^event
+  end
+
 # Helper fxns
   defp createBody(socket, body) do
      "[#{socket.assigns.username}] #{body}" 
@@ -51,5 +61,17 @@ defmodule Wwm.Web.RoomChannelTest do
     {:ok, socket} = connect(UserSocket, connection_params)
     {:ok, _, socket} = subscribe_and_join(socket, topic) 
     socket
+  end
+
+  defp getTime() do
+    :os.system_time(:milli_seconds)
+  end
+
+  defp new_play_event(username) do
+    now = getTime()
+    Events.new_video_event("PLAY",
+      now,
+      now,
+      username)
   end
 end
