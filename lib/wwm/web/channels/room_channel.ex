@@ -90,6 +90,7 @@ defmodule Wwm.Web.RoomChannel do
   end
 
   def handle_out("new_msg", payload, socket) do
+    IO.inspect payload
     if socket.assigns.username === payload.sender do
       {:noreply, socket}
     else

@@ -22,15 +22,6 @@ defmodule Wwm.Web.RoomChannelTest do
       assert_reply ref, :ok, %{body: ^body}
   end
 
-  test "Event:new_msg - broadcast prepends message with username'", %{socket: socket} do
-    message = "Welcome to OASIS"
-    body = createBody(socket, message)
-
-    broadcast_from! socket, "new_msg", %{body: body}
-
-    assert_push "new_msg", %{body: ^body}
-  end
-
   test "Event:user_joined - broadcast is send to channel" do
     message = %{username: @username, body: "#{@username} joined!"}
 
