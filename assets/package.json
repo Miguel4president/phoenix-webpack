@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch-stdin --progress --color"
   },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",
@@ -14,7 +14,10 @@
     "babel-loader": "7.0.0",
     "babel-preset-env": "1.4.0",
     "copy-webpack-plugin": "4.0.1",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "0.11.1",
+    "style-loader": "^0.16.1",
     "webpack": "2.4.1"
   }
 }
