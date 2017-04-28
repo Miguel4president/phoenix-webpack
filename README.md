@@ -1,4 +1,11 @@
-# Watch With Me Elixir
+# Phoenix and Webpack template
+
+This is cool because is uses the Phoenix framework 1.3RC and Webpack.
+Phoenix handles all of the the normal server stuff, but part of the build process is to trigger the webpack build.
+The config for that lives in root/assets, and everything builds to /root/priv/static
+And phoenix serves it's static content from there.
+
+So new age JS and stuff, built and bundled into the static serve directory.
 
 This is a pretty standard Elixir Phoenix App that supplies the backend for WWM.
 
@@ -56,6 +63,8 @@ This is an abstraction around message passing in general, we will use websockets
 There are basically two projects in here, but for testing sake I've built them together.
 
 ### Server
+
+To be replaced soon as I generisize(?) everything.
 
 The Server lives in the `lib/wwm` directory, and it's a pretty standard Phoenix app. The beef is in `/web/channels` and the tests in the same place.
 
