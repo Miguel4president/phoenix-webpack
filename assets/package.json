@@ -3,7 +3,8 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch-stdin --progress --color"
+    "watch": "webpack --watch-stdin --progress --color",
+    "deploy": "webpack -p"
   },
   "dependencies": {
     "phoenix": "file:../deps/phoenix",

@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Hello Wwm!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/phoenix.css") %>">
   </head>
 
   <body>
@@ -30,6 +30,6 @@
       </main>
 
     </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/www.bundle.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/wwm.bundle.js") %>"></script>
   </body>
 </html>

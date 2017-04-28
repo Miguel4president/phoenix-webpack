@@ -11,7 +11,7 @@ config :wwm, Wwm.Web.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["assets/node_modules/webpack"," --watch"]]
+  watchers: [npm: ["run", "watch", cd: Path.expand("../assets", __DIR__)]]
 
 # ## SSL Support
 #

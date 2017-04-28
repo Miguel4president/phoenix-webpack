@@ -9,6 +9,9 @@ module.exports = {
 	path: path.resolve(__dirname, '../priv/static'),
 	sourceMapFilename: "wwm.bundle.map",
   },
+  resolve: {
+    modules: [ "node_modules", __dirname + "/js" ]
+  },
   module: {
 	rules: [
 		{
